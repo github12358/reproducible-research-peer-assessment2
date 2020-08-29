@@ -119,6 +119,10 @@ p+geom_bar(stat = "identity", fill = "red")+ ggtitle("Top 10 Weather Events by #
 ```
 ![types of events](https://user-images.githubusercontent.com/69575052/91639643-3c61b980-ea42-11ea-915e-b9fbc2216c4d.PNG) 
 
+```
+From the information shown above, Tornados are the most harmful events to population health based on total number fatalities.
+```
+
 ##### 4.2. Injuries 
  Only the top 10 events are shown
 
@@ -132,6 +136,10 @@ q<- ggplot(topweatherinjury, aes(x=reorder(EVTYPE, INJURIES), y=INJURIES))
 q+geom_bar(stat = "identity", fill = "blue")+ ggtitle("Top 10 Weather Events by # Injuries")+labs(x = "Event Type", y="#Injuries") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
 ```
 ![Injuries](https://user-images.githubusercontent.com/69575052/91639593-f4429700-ea41-11ea-92e5-c7145e97e100.PNG)
+
+```
+From the information shown above, Tornados are the most harmful events to population health based on total number injuries.
+```
 
 ##### 4.3. Economic consequences
 Only the top 10 events are shown
@@ -147,7 +155,12 @@ r+geom_bar(stat = "identity", fill = "green")+ ggtitle("Top 10 Weather Events by
 ```
 ![economic consequences](https://user-images.githubusercontent.com/69575052/91639692-8e0a4400-ea42-11ea-8e9e-574d25cdcf15.PNG)
 
-###Conclusion 
+```
+From the information shown above, Floods have the greatest economic consequences based on total dollars of property and crop damage.
+```
+
+###Conclusion
+```
 Tornado is the most harmful weather event in the U.S with respect to population health.
 
 Floods have the greatest economic consequences in the U.S.
