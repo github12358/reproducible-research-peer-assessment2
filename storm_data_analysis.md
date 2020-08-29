@@ -145,7 +145,7 @@ TOPTOTALDMGAMT <- TOTALDMGAMT[1: 10, ]
 r<- ggplot(TOPTOTALDMGAMT, aes(x=reorder(EVTYPE, TOTALDMGAMT/1000000000), y=TOTALDMGAMT/1000000000))
 r+geom_bar(stat = "identity", fill = "green")+ ggtitle("Top 10 Weather Events by Total Damage (in $ Billions)")+labs(x = "Event Type", y="Total Damage (in $ Billions)") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
 ```
-![Injuries](https://user-images.githubusercontent.com/69575052/91639655-51d6e380-ea42-11ea-9682-9fadd51ee3bc.PNG)
+![economic consequences](https://user-images.githubusercontent.com/69575052/91639692-8e0a4400-ea42-11ea-8e9e-574d25cdcf15.PNG)
 
 ###Conclusion 
 Tornado is the most harmful weather event in the U.S with respect to population health.
