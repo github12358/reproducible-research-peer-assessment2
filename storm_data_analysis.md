@@ -117,7 +117,7 @@ topweatherfatalities <- weatherfatalities[1: 10, ]
 p<- ggplot(topweatherfatalities, aes(x=reorder(EVTYPE, FATALITIES), y=FATALITIES))
 p+geom_bar(stat = "identity", fill = "red")+ ggtitle("Top 10 Weather Events by # Fatalities")+labs(x = "Event Type", y="#Fatalities") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
 ```
-![plot of chunk unnamed-chunk-12](./strom data analysis plots/types of events.PNG) 
+![types of events](https://user-images.githubusercontent.com/69575052/91639643-3c61b980-ea42-11ea-915e-b9fbc2216c4d.PNG) 
 
 ##### 4.2. Injuries 
  Only the top 10 events are shown
@@ -131,7 +131,7 @@ topweatherinjury <- weatherinjury[1: 10, ]
 q<- ggplot(topweatherinjury, aes(x=reorder(EVTYPE, INJURIES), y=INJURIES))
 q+geom_bar(stat = "identity", fill = "blue")+ ggtitle("Top 10 Weather Events by # Injuries")+labs(x = "Event Type", y="#Injuries") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
 ```
-![plot of chunk unnamed-chunk-12](./strom data analysis plots/Injuries.PNG)
+![Injuries](https://user-images.githubusercontent.com/69575052/91639593-f4429700-ea41-11ea-92e5-c7145e97e100.PNG)
 
 ##### 4.3. Economic consequences
 Only the top 10 events are shown
@@ -145,7 +145,7 @@ TOPTOTALDMGAMT <- TOTALDMGAMT[1: 10, ]
 r<- ggplot(TOPTOTALDMGAMT, aes(x=reorder(EVTYPE, TOTALDMGAMT/1000000000), y=TOTALDMGAMT/1000000000))
 r+geom_bar(stat = "identity", fill = "green")+ ggtitle("Top 10 Weather Events by Total Damage (in $ Billions)")+labs(x = "Event Type", y="Total Damage (in $ Billions)") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
 ```
-![plot of chunk unnamed-chunk-12](./strom data analysis plots/economic consequences.PNG)
+![Injuries](https://user-images.githubusercontent.com/69575052/91639655-51d6e380-ea42-11ea-9682-9fadd51ee3bc.PNG)
 
 ###Conclusion 
 Tornado is the most harmful weather event in the U.S with respect to population health.
