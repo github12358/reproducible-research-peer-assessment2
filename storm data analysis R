@@ -1,0 +1,52 @@
+if (!"datafile.csv.bz2" %in% dir("./")) {
+  download.file("https://d396qusza40orc.cloudfront.net/repdata%2Fdata%2FStormData.csv.bz2","datafile.csv.bz2")
+}
+
+if(!"weatherdata" %in% ls()) {
+  weatherdata <- read.csv("datafile.csv.bz2")
+  
+}
+
+library(ggplot2)
+
+#Create Data Frame for event type, fatalities and injuries
+weatherdataclean <- data.frame(weatherdata$EVTYPE,weatherdata$FATALITIES, weatherdata$INJURIES)
+colnames(weatherdataclean) = c("EVTYPE", "FATALITIES", "INJURIES")
+
+#Create Data Frame for event type, property damage and crop damage
+damagedataclean <- data.frame(weatherdata$EVTYPE,weatherdata$PROPDMG, weatherdata$PROPDMGEXP, weatherdata$CROPDMG, weatherdata$CROPDMGEXP)
+colnames(damagedataclean) = c("EVTYPE", "PROPDMG", "PROPDMGEXP", "CROPDMG", "CROPDMGEXP")
+
+#Derrive damage amount based on metric summary (K = 1,000, M = 1,000,000, B = 1,000,000,000). Create new metric for combined property + crop damage.
+damagedataclean$PROPDMGMult <- ifelse (damagedataclean$PROPDMGEXP == "K", 1000, ifelse (damagedataclean$PROPDMGEXP == "M", 1000000, ifelse (damagedataclean$PROPDMGEXP == "B", 1000000000, 0)))
+damagedataclean$PROPDMGAMT <- damagedataclean$PROPDMG*damagedataclean$PROPDMGMult
+damagedataclean$CROPDMGMult <- ifelse (damagedataclean$CROPDMGEXP == "K", 1000, ifelse (damagedataclean$CROPDMGEXP == "M", 1000000, ifelse (damagedataclean$CROPDMGEXP == "B", 1000000000, 0)))
+damagedataclean$CROPDMGAMT <- damagedataclean$CROPDMG*damagedataclean$CROPDMGMult
+damagedataclean$TOTALDMGAMT <- damagedataclean$PROPDMGAMT+damagedataclean$CROPDMGAMT
+
+#Across the United States, which types of events (as indicated in the \color{red}{\verb|EVTYPE|}EVTYPE variable) are most harmful with respect to population health?
+weatherfatalities <- aggregate(weatherdataclean$FATALITIES, by = list(weatherdataclean$EVTYPE), FUN = sum, na.rm = TRUE)
+colnames(weatherfatalities) = c("EVTYPE", "FATALITIES")
+weatherfatalities <- weatherfatalities[order(-weatherfatalities$FATALITIES),]
+topweatherfatalities <- weatherfatalities[1: 10, ]
+
+p<- ggplot(topweatherfatalities, aes(x=reorder(EVTYPE, FATALITIES), y=FATALITIES))
+p+geom_bar(stat = "identity", fill = "red")+ ggtitle("Top 10 Weather Events by # Fatalities")+labs(x = "Event Type", y="#Fatalities") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
+
+#Injuries
+weatherinjury <- aggregate(weatherdataclean$INJURIES, by = list(weatherdataclean$EVTYPE), FUN = sum, na.rm = TRUE)
+colnames(weatherinjury) = c("EVTYPE", "INJURIES")
+weatherinjury <- weatherinjury[order(-weatherinjury$INJURIES),]
+topweatherinjury <- weatherinjury[1: 10, ]
+
+q<- ggplot(topweatherinjury, aes(x=reorder(EVTYPE, INJURIES), y=INJURIES))
+q+geom_bar(stat = "identity", fill = "blue")+ ggtitle("Top 10 Weather Events by # Injuries")+labs(x = "Event Type", y="#Injuries") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
+
+#Across the United States, which types of events have the greatest economic consequences?
+TOTALDMGAMT <- aggregate(damagedataclean$TOTALDMGAMT, by = list(damagedataclean$EVTYPE), FUN = sum, na.rm = TRUE)
+colnames(TOTALDMGAMT) = c("EVTYPE", "TOTALDMGAMT")
+TOTALDMGAMT <- TOTALDMGAMT[order(-TOTALDMGAMT$TOTALDMGAMT),]
+TOPTOTALDMGAMT <- TOTALDMGAMT[1: 10, ]
+
+r<- ggplot(TOPTOTALDMGAMT, aes(x=reorder(EVTYPE, TOTALDMGAMT/1000000000), y=TOTALDMGAMT/1000000000))
+r+geom_bar(stat = "identity", fill = "green")+ ggtitle("Top 10 Weather Events by Total Damage (in $ Billions)")+labs(x = "Event Type", y="Total Damage (in $ Billions)") +theme(axis.text.x = element_text(angle=45, hjust=1)) 
